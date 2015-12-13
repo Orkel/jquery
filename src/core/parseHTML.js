@@ -27,15 +27,8 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 		document.implementation.createHTMLDocument( "" ) :
 		document );
 
-	var parsed = rsingleTag.exec( data ),
-		scripts = !keepScripts && [];
-
-	// Single tag
-	if ( parsed ) {
-		return [ context.createElement( parsed[ 1 ] ) ];
-	}
-
-	parsed = buildFragment( [ data ], context, scripts );
+	var scripts = !keepScripts && [],
+		parsed = buildFragment( [ data ], context, scripts );
 
 	if ( scripts && scripts.length ) {
 		jQuery( scripts ).remove();

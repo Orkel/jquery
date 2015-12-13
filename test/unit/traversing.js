@@ -197,7 +197,7 @@ QUnit.test( "index()", function( assert ) {
 
 	assert.equal( jQuery( "#text2" ).index(), 2, "Returns the index of a child amongst its siblings" );
 
-	assert.equal( jQuery( "<div/>" ).index(), -1, "Node without parent returns -1" );
+	assert.equal( jQuery( document.createElement( "div" ) ).index(), -1, "Node without parent returns -1" );
 } );
 
 QUnit.test( "index(Object|String|undefined)", function( assert ) {
@@ -707,7 +707,7 @@ QUnit.test( "sort direction", function( assert ) {
 QUnit.test( "add(String selector)", function( assert ) {
 	assert.expect( 2 );
 
-	var divs;
+	var divs, div;
 
 	assert.deepEqual(
 		jQuery( "#sndp" ).add( "#en" ).add( "#sap" ).toArray(),
@@ -715,8 +715,13 @@ QUnit.test( "add(String selector)", function( assert ) {
 		"Check elements from document"
 	);
 
-	divs = jQuery( "<div/>" ).add( "#sndp" );
-	assert.ok( divs[ 0 ].parentNode, "Sort with the disconnected node last (started with disconnected first)." );
+	div = document.createElement( "div" );
+	div.test = true;
+	divs = jQuery( div ).add( "#sndp" );
+
+	assert.equal( "test" in divs[ 0 ], false,
+		"Sort with the disconnected node last (started with disconnected first)."
+	);
 } );
 
 QUnit.test( "add(String selector, String context)", function( assert ) {
@@ -730,14 +735,9 @@ QUnit.test( "add(String selector, String context)", function( assert ) {
 } );
 
 QUnit.test( "add(String html)", function( assert ) {
-	assert.expect( 3 );
+	assert.expect( 2 );
 
-	var x,
-		divs = jQuery( "#sndp" ).add( "<div/>" );
-
-	assert.ok( !divs[ 1 ].parentNode, "Sort with the disconnected node last." );
-
-	x = jQuery( [] ).add( "<p id='x1'>xxx</p>" ).add( "<p id='x2'>xxx</p>" );
+	var x = jQuery( [] ).add( "<p id='x1'>xxx</p>" ).add( "<p id='x2'>xxx</p>" );
 	assert.equal( x[ 0 ].id, "x1", "Check detached element1" );
 	assert.equal( x[ 1 ].id, "x2", "Check detached element2" );
 } );

@@ -580,7 +580,7 @@ QUnit.test( "isWindow", function( assert ) {
 } );
 
 QUnit.test( "jQuery('html')", function( assert ) {
-	assert.expect( 18 );
+	assert.expect( 17 );
 
 	var s, div, j;
 
@@ -600,8 +600,6 @@ QUnit.test( "jQuery('html')", function( assert ) {
 	assert.equal( div.childNodes[ 1 ].firstChild.nodeType, 3, "Paragraph text." );
 
 	assert.ok( jQuery( "<link rel='stylesheet'/>" )[ 0 ], "Creating a link" );
-
-	assert.ok( !jQuery( "<script/>" )[ 0 ].parentNode, "Create a script" );
 
 	assert.ok( jQuery( "<input/>" ).attr( "type", "hidden" ), "Create an input and set the type." );
 
